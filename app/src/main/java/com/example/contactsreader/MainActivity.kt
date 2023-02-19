@@ -53,22 +53,18 @@ class MainActivity:AppCompatActivity() {
 
 
         val nasa: SearchView = findViewById(R.id.searchViewContacts)
-       nasa.setOnQueryTextListener(object : SearchView.OnQueryTextListener{
-           override fun onQueryTextSubmit(q: String): Boolean {
-              return true
+       nasa.setOnQueryTextListener(object:SearchView.OnQueryTextListener{
+           override fun onQueryTextSubmit(query: String?): Boolean {
+               return false
            }
 
-           override fun onQueryTextChange(q: String): Boolean {
-               var rs=contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,cols,"${cols[0]}LIKE?",Array(1){"%$q%"},cols[0])
-               adapter.changeCursor(rs)
-              return false
+           override fun onQueryTextChange(newText: String?): Boolean {
+               var rs= contentResolver.query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI,cols,"${cols[0]} LIKE ?",
+                   Array(1){"%$newText%"},cols[0])
+                    adapter.changeCursor(rs)
+               return false
            }
-        })
-
-
-    }
+       })}}
 
 
 
-
-}
